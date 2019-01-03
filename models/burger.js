@@ -5,7 +5,7 @@ var burger = {
 
     getAll: function(){
         return new Promise(function(resolve, reject){
-         orm.selectAll().then(function(res){
+         orm.selectAll("burger").then(function(res){
                 if(res){
                     console.log("in burger")
                     resolve(res);
@@ -18,19 +18,18 @@ var burger = {
      },
  
      addBurger: function(name){
-         burgers[name] = false;
-        orm.insertOne(name);
+
+        orm.insertOne("burger", "burger_name", name);
         
     },
 
-     updateBurger: function(name){
-         burgers[name] = ! burgers[name];
-        orm.updateOne(name);
+     updateBurger: function(name, val){
+        orm.updateOne("burger", "devoured", val, "burger_name", name);
     },
 
     
      getBurger: function(name){
-        orm.selectOne(name);
+        orm.selectOne("burger", "burger_name", name);
     },
 
     
