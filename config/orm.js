@@ -3,7 +3,7 @@ var connection = require("./connection.js");
 var orm = {
 
     selectOne(name){
-        connection.query(`SELECT * FROM burger WHERE burger_name = "${name}"`, function(err, res){
+        return connection.query(`SELECT * FROM burger WHERE burger_name = "${name}"`, function(err, res){
             if(err) throw err;
             console.table(res);
         })
@@ -11,12 +11,23 @@ var orm = {
 
     selectAll(){
         
+        return new Promise(function(resolve, reject){
+            connection.query(`SELECT * FROM burger`, function(err, res){
+                if (err) throw err;
+                    if(!res.length){
+                        console.log("hello 1")
+                        reject(new Error("Error no length"));
+                    }else{
+                        for(let i in res){
+                            console.log(res[i]);
+                        }
 
-        connection.query(`SELECT * FROM burger`, function(err, res){
-            if (err) throw err;
-            console.table(res);
-           
-        });
+                        resolve(res);
+                    }
+               
+            })
+        })
+      
     },
     insertOne(name){
         
@@ -26,8 +37,8 @@ var orm = {
         });
 
     },
-    updateOne(name){
-        connection.query(`UPDATE burger SET devoured = !devoured WHERE burger_name = "${name}"`, function(err, res){
+    updateOne(name , val){
+        connection.query(`UPDATE burger SET devoured = ${val} WHERE burger_name = "${name}"`, function(err, res){
             if(err) throw err;
             console.log(res);
         })

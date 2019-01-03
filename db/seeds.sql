@@ -7,3 +7,6 @@ values ("bacon burger");
 use burgers_db;
 insert into burger (burger_name)
 values ("chili burger");
+
+use burgers_db;
+select * from burger;

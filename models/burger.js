@@ -1,8 +1,22 @@
 var orm = require("../config/orm");
 
 var burger = {
-    burgers: {},
+    
 
+    getAll: function(){
+        return new Promise(function(resolve, reject){
+         orm.selectAll().then(function(res){
+                if(res){
+                    console.log("in burger")
+                    resolve(res);
+                }else{
+                    console.log("error")
+                    reject(new Error("uh oh"))
+                }
+          });
+        })
+     },
+ 
      addBurger: function(name){
          burgers[name] = false;
         orm.insertOne(name);
@@ -10,14 +24,11 @@ var burger = {
     },
 
      updateBurger: function(name){
-         burgers[name] = !burgers[name];
+         burgers[name] = ! burgers[name];
         orm.updateOne(name);
     },
 
-     getAll: function(){
-        orm.selectAll();
-    },
-
+    
      getBurger: function(name){
         orm.selectOne(name);
     },

@@ -1,22 +1,32 @@
 <div style="height: 100vh;" class="container ">
+    <div class="row bg-success p-4">
+        <h2 class="col-8 bg-secondary text-center m-auto p-5 border-bottom border-dark">Add a burger!</h2>
+        <div class="col-12 m-2">
+            <input type="text" class="col-8 rounded-left"><input type="submit" name="submit" class="btn m-auto rounded-right btn-primary col-4">
+        </div>
+    </div>
     <div class="row h-100">
         <!-- left side of the screen -->
         <div class="col-6 bg-info border">
             <h1 class="col-12 bg-warning border-bottom border-dark">Burgers to devour!</h1>
 
-            <div class="row m-auto p-3 bg-secondary border border-dark rounded">
-                <h5 class="col-7 m-auto"> Burger Name</h5>
-                <a href="#" class="col-4 btn btn-danger">Devour it!</a>
+            {{#each burger.toEat}}
+            <div class="row m-2 p-3 bg-secondary border border-dark rounded">
+                <h5 class="col-7 m-auto"> {{this.burger_name}}</h5>
+                <a href="#" class="col-4 btn btn-danger">{{this.devoured}}</a>
             </div>
-
+            {{/each}}
         </div>
         <!-- right side of the screen-->
         <div class="col-6 bg-warning border">
             <h1 class="col-12 bg-info border-bottom border-dark">Devoured Burgers!</h1>
 
-            <div class="">
-
+            {{#each burger.eaten}}
+            <div class="row m-2 p-3 bg-secondary border border-dark rounded">
+                <h5 class="col-7 m-auto"> {{this.burger_name}}</h5>
+                <a href="#" class="col-4 btn btn-danger">{{this.devoured}}</a>
             </div>
+            {{/each}}
 
         </div>
     </div>
