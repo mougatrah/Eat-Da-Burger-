@@ -51,8 +51,7 @@ var orm = {
         return new Promise(function (resolve, reject) {
 
             connection.query(`INSERT INTO ${table} (${col}) VALUES ("${val}")`, function (err, res) {
-                if (err) throw err;
-                if (!res.length) {
+                if (err) {
                     console.log("hello 1")
                     reject(new Error("Error no length"));
                 } else {
@@ -72,8 +71,8 @@ var orm = {
         return new Promise(function (resolve, reject) {
 
             connection.query(`UPDATE ${table} SET ${setCol} = ${setVal} WHERE ${whereCol} = "${whereVal}"`, function (err, res) {
-                if (err) throw err;
-                if (!res.length) {
+             
+                if (err) {
                     console.log("hello 1")
                     reject(new Error("Error no length"));
                 } else {

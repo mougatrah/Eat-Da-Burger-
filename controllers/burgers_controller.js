@@ -18,23 +18,33 @@ module.exports = function(app){
             }
             console.log("burger 2 " + Object.keys(burger));
                 res.render("index", {burger: {eaten:eaten, toEat:toEat}});
-        }
-
-        ).catch(function(err){
+        }).catch(function(err){
             console.log("UH OOOOOH " + err)
         });
       
     })
 
-    app.get("/burger/", function(req, res){
-       res.send();
-    });
-    
-    app.post("/burger/:name", function(req, res){
-        burger.addBurger(req.params.name);
-    });
-
-    app.get("/burger/:name", function(req, res){
-        burger.getBurger(req.params.name);
+    app.post("/update", function(req, res){
+        console.log(req.body);
+        burger.updateBurger(req.body.id, 1).then(function(data){
+            res.redirect("/");
+        }).catch(function(err){
+            console.log("update error " + err);
+        });
+      
     })
+
+    app.post("/add", function(req, res){
+        console.log(req.body);
+        burger.addBurger(req.body.name).then(function(data){
+          console.log(data);
+    
+          res.json(data.insertId);
+        }).catch(function(err){
+            console.log("add error " + err);
+        });
+
+
+    })
+    
 }
