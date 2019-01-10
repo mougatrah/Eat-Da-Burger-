@@ -8,4 +8,3 @@ create table burger(
     devoured boolean not null default 0,
     primary key (id)
 );
-
