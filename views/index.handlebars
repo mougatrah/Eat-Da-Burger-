@@ -5,7 +5,7 @@
             <input id="newBurger" type="text" class="col-8 rounded-left" required><input type="submit" name="submit" id="addBurger" class="btn m-auto rounded-right btn-primary col-4">
         </form>
     </div>
-    <div class="row h-100">
+    <div class="row h-auto">
         <!-- left side of the screen -->
         <div id="burgerList" class="col-6 bg-info border">
             <h1 class="col-12 bg-warning border-bottom border-dark">Burgers to devour!</h1>
@@ -24,6 +24,7 @@
             {{#each burger.eaten}}
             <div class="row m-2 p-3 bg-secondary border border-dark rounded">
                 <h5 class="col-7 m-auto"> {{this.burger_name}}</h5>
+                <a href="#" class="delete btn btn-danger" data-id="{{this.id}}">X</a>
             </div>
             {{/each}}
 
@@ -31,28 +32,53 @@
     </div>
 </div>
 <script>
-    $(".devour").click(function(e){
+    $(document).on("click",".devour", function(e){
         e.preventDefault();
-        console.log("hello")
-        $("#devouredList").append($(this).parent().get());
-        $.post("/update", {name: $(this).attr("data-name"), id: $(this).attr("data-id")});
-        $(this).hide();
+        console.log(e.target);
+        var curId = $(e.target).attr("data-id");
+        var parent = $(e.target).parent().get();
+        var deleteBtn = $("<a>").addClass("delete btn btn-danger text-white").attr("data-id", curId).text("X");
+        $(parent).append(deleteBtn);
+        $("#devouredList").append(parent);
+        $.post("/update", {name: $(e.target).attr("data-name"), id: curId});
+        $(e.target).hide();
     });
+
+    $(document).on("click", ".delete", function(e){
+        e.preventDefault();
+        console.log(e.target);
+        $.ajax( {
+            method: "DELETE",
+            url: "/DANGER",
+            data: {
+                id: $(e.target).attr("data-id")
+            }
+        });
+           $(e.target).parent().hide();
+        })
   
   $("#addBurger").click(function(e){
       e.preventDefault();
       var newB = $("#newBurger").val().trim();
+      console.log(newB)
      if(newB.length){
+        
           $.post("/add", {name: $("#newBurger").val().trim()}).then(function(data){
           console.log(data);
-          var div = $("div").addClass("row m-2 p-3 bg-secondary border border-dark rounded");
-          var h5 = $("h5").addClass("col-7 m-auto").text(newB);
+          var div = $("<div>").addClass("row m-2 p-3 bg-secondary border border-dark rounded");
+          var h5 = $("<h5>").addClass("col-7 m-auto").text(newB);
+          var a = $("<a>").addClass("devour col-4 btn btn-danger").attr({
+              "href": "#",
+              "data-name": data.burger_name,
+              "data-id": data.id}).text("Devour!");
           div.append(h5);
+          div.append(a);
           $("#burgerList").append(div);
+          $("#newBurger").val("");
       });
-      $("#newBurger").val("");
+     
      }
      
-  })
+  });
  
 </script>

@@ -1,10 +1,10 @@
-var burger = require("../models/burger");
+var db = require("../models/");
 
 module.exports = function(app){
 
     app.get("/", function(req, res){
-        console.log("burger 1 " + Object.keys(burger))
-        burger.findAll().then(function(response){
+        console.log("burger 1 " + Object.keys(db.Burger))
+        db.Burger.findAll().then(function(response){
             var eaten = [];
             var toEat = [];
 
@@ -25,7 +25,7 @@ module.exports = function(app){
 
     app.post("/update", function(req, res){
         console.log(req.body);
-        burger.update({
+        db.Burger.update({
             devoured: true
         },{
             where:{
@@ -39,10 +39,22 @@ console.log(data);
 
     app.post("/add", function(req, res){
         console.log(req.body);
-        burger.create({burger_name: req.body.name}).then(function(data){
-            console.log(data);
+        db.Burger.create({burger_name: req.body.name}).then(function(data){
+            console.log(Object.keys(data));
+            res.json(data)
                     });
 
     });
+
+    app.delete("/DANGER", function(req,res){
+        console.log(req.body);
+        db.Burger.destroy({
+            where: {
+                id: req.body.id
+            }
+        }).then(function(data){
+            console.log(data);
+        })
+    })
     
 }

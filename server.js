@@ -15,6 +15,8 @@ var app = express();
 
 // Sets an initial port. We"ll use this later in our listener
 var PORT = process.env.PORT || 8080;
+
+var db = require("./models");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -26,6 +28,8 @@ app.set("view engine", "handlebars");
 
 require("./controllers/burgers_controller")(app);
 
-app.listen(PORT, function() {
+db.sequelize.sync().then(function(){
+  app.listen(PORT, function() {
     console.log("App listening on PORT: " + PORT);
   });
+});
