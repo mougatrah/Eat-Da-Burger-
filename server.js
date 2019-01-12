@@ -20,6 +20,8 @@ var db = require("./models");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(express.static("images"));
+
 var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
