@@ -16,12 +16,7 @@
       "dialect": "postgres"
     },
     "production": {
-      "username": "root",
-      "password": null,
-      "database": "DATABASE",
-      "use_env_variable":"postgresql-rectangular-56879", 
-      "host": "127.0.0.1",
-      "port": 3306,
+      "use_env_variable": "DATABASE_URL",
       "dialect": "postgres"
     }
   }
